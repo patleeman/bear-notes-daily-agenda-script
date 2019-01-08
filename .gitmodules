@@ -1,0 +1,3 @@
+[submodule "xcall"]
+	path = xcall
+	url = git@github.com:robwalton/python-xcall.git
