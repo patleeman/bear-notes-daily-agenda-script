@@ -12,8 +12,11 @@ import xcall
 
 
 BEAR_API_TOKEN = os.getenv("BEAR_API_TOKEN")
+if BEAR_API_TOKEN is None:
+    raise Exception("Missing API Token")
+
 PLANNER_TAG = "day planner"
-TITLE_DAY_FORMAT = "'%A %B %-d, %Y'"
+TITLE_DAY_FORMAT = "%A %B %-d, %Y"
 NOTE_BODY = u"""
 ## Todo:
 - [ ] Do something
@@ -54,8 +57,8 @@ def format_note():
 
 def get_existing_notes():
     search_term = datetime.now().strftime(TITLE_DAY_FORMAT)
-    contents = xcall.xcall('bear', 'search', {"tag": PLANNER_TAG, "token": BEAR_API_TOKEN, "term": search_term})
-    if len(contents['notes']) > 0:
+    contents = xcall.xcall('bear', 'search', {"tag": PLANNER_TAG, "token": BEAR_API_TOKEN, "show_window": False, "term": search_term})
+    if 'notes' in contents and len(contents['notes']) > 0:
         return contents['notes'][0]
     return None
 
