@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import json
 import subprocess
 import requests
 from datetime import datetime
@@ -58,7 +59,8 @@ def format_note():
 def get_existing_notes():
     search_term = datetime.now().strftime(TITLE_DAY_FORMAT)
     contents = xcall.xcall('bear', 'search', {"tag": PLANNER_TAG, "token": BEAR_API_TOKEN, "show_window": False, "term": search_term})
-    if 'notes' in contents and len(contents['notes']) > 0:
+    notes = json.loads(contents['notes'])
+    if len(notes) > 0:
         return contents['notes'][0]
     return None
 
